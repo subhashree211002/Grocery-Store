@@ -14,7 +14,7 @@
                 width:100%;
                 height:100vh; 
                 background:black;
-                background-image:url('../images/home_optimized.jpg'); 
+                background-image:url('{{url_for('static', filename='images/home_optimized.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
                 background-attachment: fixed;
@@ -75,17 +75,14 @@
     <body id="body">
         <nav id = "nav" class="navbar sticky-top bg-body-tertiary text-center">
             <div class="nav" style = "text-align:left;">
-                user_01's Dashboard
+                {{ user }}'s Dashboard
             </div>
 
             <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
-                <a href="/" style = "text-decoration:none; color:black;">Profile</a>
-            </div>
-            <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:center;border-right:2px solid black;">
-                <a href="/" style = "text-decoration:none; color:black;">Home</a>
+                <a href="/{{ user }}/cart" style = "text-decoration:none; color:black;">Cart</a>
             </div>
             <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
-                <a href="/" style = "text-decoration:none; color:black;">Logout</a>
+                <a href="/login" style = "text-decoration:none; color:black;">Logout</a>
             </div>
         </nav>
         
@@ -96,259 +93,47 @@
                 Fresh Convenience at Your Fingertips: Your One-Stop Grocery App!<br>
             </div>
 
+            <div class = "container-fluid shadow" style = "width:100%; margin-top:5vh; background-color:white;">
+                <div class ="row" style="margin-left:1vw; padding-top:1vh; padding-bottom:1vh">
+                    <div class = "col-2" >
+                        <select id = "filter-select" class="form-select" style = "background-color:black; color:white; border:none;" onchange = "filter_ip()" aria-label="Default select example">
+                            <option selected>Show all </option>
+                            <option value="1">Category</option>
+                            <option value="2">Product</option>
+                            <option value="3">Price</option>
+                        </select>
+                    </div>
+                    <div class = "col-2"></div>
+                    <input id = "filter-ip" class = "col-4 border" type = "text" style = "border:1px solid black; display:none;">
+                    <div id = "range-val" class = "col-2"></div>
+                    <button id = "filter-btn" type="button" class="btn btn-dark col-1" disabled onclick = "filter()">Apply</button>
+                </div>
+            </div>
+
             <div id = "list" style = "width:100%;">
-                <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh;">
+                {% for cat in categories %}
+                <div id = "{{ cat.Name }}" class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh;">
                     <div class ="row" style="margin-left:1vw; padding-top:3vh">
-                        <h3>Category</h3>
+                        <h3>{{ cat.Name }}</h3>
                     </div>
                     <div class ="row cat" style = "margin: auto; width: 100%; height: fit-content; padding: 1vw; overflow-x: auto;">
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
+                        {% for prod in cat.products %}
+                        <div id = "{{ prod.Name }}" class="card prod shadow" style = "margin-left:1vw;">
                             <div class="card-body">
                                 <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
+                                    <p class="col-6" style = "text-align:left;">{{ prod.Name }}</p>
+                                    <p class="col-6 price" style = "text-align:right;">{{ prod.Price }}</p>
                                 </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
+                                <button type="button" class="btn btn-primary edit-cat" onclick = "window.location.href = '/{{ user }}/cart_addition/prod_{{ prod.PID }}';">Buy</button>
+                                <img src ="{{url_for('static', filename='images/cart.png')}}" style = "width:15%">
                             </div>
                         </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>                        
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
+                        {% else %}
+                        <p class="mb-4"> Items arriving Soon </p>
+                        {% endfor %}
                     </div>
                 </div>
-
-                <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh;">
-                    <div class ="row" style="margin-left:1vw; padding-top:3vh">
-                        <h3>Category</h3>
-                    </div>
-                    <div class ="row cat" style = "margin: auto; width: 100%; height: fit-content; padding: 1vw; overflow-x: auto;">
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>                        
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh;">
-                    <div class ="row" style="margin-left:1vw; padding-top:3vh">
-                        <h3>Category</h3>
-                    </div>
-                    <div class ="row cat" style = "margin: auto; width: 100%; height: fit-content; padding: 1vw; overflow-x: auto;">
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>                        
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh;">
-                    <div class ="row" style="margin-left:1vw; padding-top:3vh">
-                        <h3>Category</h3>
-                    </div>
-                    <div class ="row cat" style = "margin: auto; width: 100%; height: fit-content; padding: 1vw; overflow-x: auto;">
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>                        
-                        
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-
-                        <div class="card prod shadow" style = "margin-left:1vw;">
-                            <div class="card-body">
-                                <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;"> quick example</p>
-                                    <p class="col-6" style = "text-align:right;">price</p>
-                                </div>
-                                <button type="button" class="btn btn-primary edit-cat">Buy</button>
-                                <img src ="../images/cart.png" style = "width:15%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                {% endfor %}
                 
             </div> 
 
@@ -386,6 +171,134 @@
                     clearInterval(interval); // Stop the interval when opacity reaches 0
                 }
                 }, 50);
+            }
+
+            function filter_ip(){
+                var v = document.getElementById("filter-select").value
+                if(v == 1){
+                    document.getElementById("filter-ip").type = "text" 
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("range-val").innerHTML =""
+                    document.getElementById("filter-ip").removeEventListener('input', val);    
+                }
+                else if(v == 2){
+                    document.getElementById("filter-ip").type = "text"
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("range-val").innerHTML =""
+                    document.getElementById("filter-ip").removeEventListener('input', val);    
+                }
+                else if(v == 3){
+                    document.getElementById("filter-ip").type = "range"
+                    document.getElementById("filter-ip").min = "0"
+                    document.getElementById("filter-ip").max = "1000"
+                    document.getElementById("filter-ip").step = "0.5"
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("filter-ip").addEventListener('input', val);
+                }
+                else{
+                    document.getElementById("filter-ip").style.display = "none"
+                    document.getElementById("filter-btn").disabled = "disabled"
+                    document.getElementById("filter-ip").removeEventListener('input', val);
+                    document.getElementById("range-val").innerHTML =""
+                    filter();    
+
+                }
+            }
+
+            function val(){
+                document.getElementById("range-val").innerHTML="\<\= Rs "+document.getElementById("filter-ip").value;
+            }
+
+            function filter(){
+                var v = document.getElementById("filter-select").value
+                var lines = document.getElementsByClassName("line-item");
+                var value = document.getElementById("filter-ip").value;
+
+                if(v==1){
+                    value = value.toLowerCase();
+                    for(var i = 0; i < lines.length; i++){
+                        //window.alert(lines[i].id)
+
+                        if(lines[i].id.indexOf(value) != -1){
+                            lines[i].style.display = ""
+                        }
+                        else{
+                            lines[i].style.display = "none"
+                        }
+                    }  
+                }
+                else if(v==2){
+                    value = value.toLowerCase();
+                    for(var i = 0; i < lines.length; i++){
+                        var flag = 0;
+                        //window.alert(lines[i].id)
+                        const parent = lines[i];
+
+                        const children = parent.querySelectorAll('.prod');
+                        children.forEach((child) => {
+                            if(child.id.indexOf(value) != -1){
+                                flag = 1;
+                                child.style.display = ""
+                            }
+                            else{
+                                child.style.display = "none"
+                            }
+                        });
+
+                        if(flag == 1){
+                            parent.style.display = ""
+                        }
+                        else{
+                            parent.style.display = "none"
+                        }
+
+                    }  
+                }
+                else if(v==3){
+                    value = parseFloat(value);
+                    for(var i = 0; i < lines.length; i++){
+                        var flag = 0;
+                        //window.alert(lines[i].id)
+                        const parent = lines[i];
+
+                        const children = parent.querySelectorAll('.prod');
+                        children.forEach((child) => {
+                            var child_price = child.querySelectorAll('.price');
+                            //window.alert(child.id+" "+child_price[0].innerHTML+" || ")
+                            if(parseFloat(child_price[0].innerHTML) <= value){
+                                //window.alert("yes");
+                                flag = 1;
+                                child.style.display = ""
+                            }
+                            else{
+                                //window.alert("no");
+                                child.style.display = "none"
+                            }
+                        });
+
+                        if(flag == 1){
+                            parent.style.display = ""
+                        }
+                        else{
+                            parent.style.display = "none"
+                        }
+
+                    }  
+                }
+                else{
+                    for(var i = 0; i < lines.length; i++){
+                        const parent = lines[i];
+                        const children = parent.querySelectorAll('.prod');
+                        children.forEach((child) => {
+                            //window.alert(child.id)
+                            child.style.display = ""
+                        });
+                        parent.style.display = ""
+                    }  
+                }
             }
             
         </script>

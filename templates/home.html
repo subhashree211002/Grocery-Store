@@ -15,7 +15,7 @@
                 width:100vw; 
                 overflow:hidden; 
                 background:black;
-                background-image:url('../images/home_optimized.jpg'); 
+                background-image:url('{{url_for('static', filename='images/home_optimized.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
             }
@@ -42,7 +42,7 @@
   
     <body id="body">
 
-        <a id = "clickable" href="./login.html">
+        <a id = "clickable" href="\login">
             <div id = "content" class="container border">
                 <div>
                     <h1>Welcome to Grocery Store!</h1>

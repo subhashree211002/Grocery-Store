@@ -14,7 +14,7 @@
                 width:100%;
                 height:100vh; 
                 background:black;
-                background-image:url('../images/home_optimized.jpg'); 
+                background-image:url('{{url_for('static', filename='images/login.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
                 background-attachment: fixed;
@@ -64,17 +64,14 @@
     <body id="body">
         <nav id = "nav" class="navbar sticky-top bg-body-tertiary text-center">
             <div class="nav" style = "text-align:left;">
-                user_01's Dashboard
+                {{ user }}'s Dashboard
             </div>
 
             <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
-                <a href="/" style = "text-decoration:none; color:black;">Profile</a>
-            </div>
-            <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:center;border-right:2px solid black;">
-                <a href="/" style = "text-decoration:none; color:black;">Home</a>
+                <a href="/{{ user }}/user_dashboard" style = "text-decoration:none; color:black;">Dashboard</a>
             </div>
             <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
-                <a href="/" style = "text-decoration:none; color:black;">Logout</a>
+                <a href="/login" style = "text-decoration:none; color:black;">Logout</a>
             </div>
         </nav>
         
@@ -82,37 +79,68 @@
         
             <div style = "margin-left:1vw; margin-right:auto; margin-top:5vh;">
                 <h1>Your Cart</h1>
-                Fresh Convenience at Your Fingertips: Your One-Stop Grocery App!<br>
+                <p>Fresh Convenience at Your Fingertips: Your One-Stop Grocery App!</p><br>
             </div>
 
-            <div id = "list" style = "width:100%">
-                <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh; display:flex;">
-                    <div class ="row" style = "margin:auto; width:100%; height:fit-content; padding:1vw;">
-                        <div class = "col-4 text-wrap" style = "margin-bottom:0px;">Produvt -  Category</div>
-                        <div class = "col-4 text-wrap" style = "margin-bottom:0px;">units</div>
-                        <div class = "col-3 text-wrap" style = "margin-bottom:0px;">total</div>
-                        <div class = "col-1  text-wrap" style = "margin-bottom:0px; padding:0px;">
-                            <button type="button" class="btn btn-primary">Edit</button>
+            {% if order is none %}
+                <h3>Your cart is empty go to home to start adding to the cart</h3>
+            {% else %}
+                {% for desc, prod in order %}
+                <div id = "list" style = "width:100%">
+                    <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh; display:flex;">
+                        <div class ="row" style = "margin:auto; width:100%; height:fit-content; padding:1vw;">
+                            <div class = "col-3 text-wrap" style = "margin-bottom:0px;">{{ prod.Name }}</div>
+                            <div id = "{{ prod.PID }}" class = "col-2 text-wrap" style = "margin-bottom:0px;">{{ desc.Qty }} units</div>
+                            <div class = "col-3 text-wrap" style = "margin-bottom:0px;">&times; {{ prod.Price }} {{ prod.Unit }}</div>
+                            <div class = "col-2 text-wrap {{ prod.PID }}" style = "margin-bottom:0px;">Rs <span class="line-total">{{ desc.Qty*prod.Price }}</span> </div>
+                            <div id = "buttons-{{ prod.PID }}" class = "col-2  text-wrap" style = "margin-bottom:0px; padding:0px;">
+                                <button type="button" class="btn btn-primary" onclick = "edittable('{{ prod.PID }}', '{{ desc.OID }}', '{{ desc.Qty }}', '{{ prod.Price }}', this)">Edit</button>
+                                <button type="button" class="btn btn-danger" onclick = "del('{{ prod.PID }}', '{{ desc.OID }}')">Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div> 
 
-                
-            </div> 
+                        {% if loop.first %}
+                        <nav class="navbar fixed-bottom bg-body-tertiary" style="border-top:3px solid black">
+                            <div class="container-fluid row">
+                                <p class = "col-2" style="font-size:3vh; text-align:right; margin:0px">Grand Total: </p>
+                                <p id = "grand-total" class = "col-4" style="font-size:3vh; margin:0px">Price </p>
+                                <p class = "col-6" style="font-size:3vh; text-align:right; padding-right:10vw; margin:0px">
+                                    <button id = "checkout-btn" type="button" class="btn btn-info" style="padding-left:8vh;padding-right:8vh" onclick = "$('#confirmationModal').modal('show');">Confirm and Buy</button>
+                                </p>
+                            </div>
+                        </nav>
+
+                        <!-- Bootstrap Modal -->
+                        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel">Confirmation Prompt</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to proceed?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" id="confirmActionBtn" onclick = "checkout('{{ user }}', {{ desc.OID }});$('#confirmationModal').modal('hide');">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
 
-        <nav class="navbar fixed-bottom bg-body-tertiary" style="border-top:3px solid black">
-            <div class="container-fluid row">
-                <p class = "col-2" style="font-size:3vh; text-align:right; margin:0px">Grand Total: </p>
-                <p class = "col-4" style="font-size:3vh; margin:0px">Price </p>
-                <p class = "col-6" style="font-size:3vh; text-align:right; padding-right:10vw; margin:0px">
-                    <button type="button" class="btn btn-info" style="padding-left:8vh;padding-right:8vh">Confirm and Buy</button>
-                </p>
-
-            </div>
-        </nav>
         
+        
+        <!-- Add Bootstrap JavaScript and jQuery (required for Bootstrap) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
 
@@ -147,12 +175,13 @@
     
                 setTimeout(function(){
                     fadeIn(el2)
-                }, 700);
+                }, 700); 
+                
+                calc();
 
-                setTimeout(function(){
-                    restructure();
-                }, 800);                
             }
+
+            
 
             function fadeIn(el) {
                 var opacity = 0; // Initial opacity
@@ -166,32 +195,116 @@
                 }, 50);
             }
 
-            function restructure(){
-                var is = document.getElementById("initial-struct");
-                var ns = document.createElement("div");
-                ns.setAttribute("id", "new-struct")
+            function calc(){
+                var eles = document.getElementsByClassName("line-total");
+                var tot = 0.0;
                 
-                nca = {};
-                for (let j = 0; j < columns; j++) {
-                    nca[j] = document.createElement("div");
-                    nca[j].classList.add("column");
+                for(var i = 0; i < eles.length; i++){
+                    tot += parseFloat(eles[i].innerHTML);
                 }
-                console.log(nca);
+                document.getElementById("grand-total").innerHTML = parseFloat(tot);
+            }
+
+            function edittable(pid, oid, curr_qt, price, bt_ele){
+                var ele = document.getElementById(pid);
+                ele.innerHTML = "<input id = 'ip"+pid+"' type='number' class='form-control' oninput = 'update("+pid+","+price+")' value='"+curr_qt+"'>"
+                parent = bt_ele.parentNode
+                parent.removeChild(bt_ele); 
+                parent.innerHTML = "<button type='button' class='btn btn-success' onclick = 'save("+oid+","+pid+")'>Save</button>";
+                parent.innerHTML += "<button type='button' class='btn btn-danger' style='margin-left:1vw;' onclick = 'cancel("+pid+","+oid+","+curr_qt+","+price+")'>Cancel</button>"
+            }
+
+            function update(pid, price){
+                //window.alert(pid, price);
+                var ele = document.getElementsByClassName(pid)[0];
+                ele.innerHTML = "Rs <span class='line-total'>"+(parseInt(document.getElementById("ip"+pid).value)*parseFloat(price))+"</span>"
+                calc();
+            }
+
+            function save(oid, pid){
+                var q = ""
+                q = parseInt(document.getElementById("ip"+pid).value);
+                var url = "/update_item";
+
+                //window.alert(oid, pid, document.getElementById("ip"+pid));
+
                 
-                i = 0
-                chl = Array.from(is.children);
-                for (let ch of chl) {
-                    is.removeChild(ch);
-                    nca[i%columns].appendChild(ch);
-                    console.log(ch);
-                    i+=1;
-                }   
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        if(ret.stat == "success"){
+                            location.reload();
+                        }
+                        else{
+                            window.alert("Something went wrong!");
+                        }
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { oid: oid, pid: pid, qty: q};
+                xhttp.send(JSON.stringify(data));
+            }
 
-                for (let j = 0; j < columns; j++) {
-                    ns.appendChild(nca[j]);
-                }
+            function cancel(pid, oid, curr_qt, price){
+                var ele = document.getElementById(pid);
+                ele.innerHTML = curr_qt+" units";
+                var parent = document.getElementById("buttons-"+pid)
+                parent.innerHTML = "<button type='button' class='btn btn-primary' onclick = 'edittable("+pid+","+oid+","+curr_qt+","+price+", this)'>Edit</button>"
+                parent.innerHTML += "<button type='button' class='btn btn-danger' style='margin-left:1vw;' onclick = 'del("+pid+", "+oid+")'>Delete</button>"
 
-                document.getElementById("content").appendChild(ns);
+            }
+
+            function del(pid, oid){
+                //window.alert(pid +","+ oid);
+                var url = "/del_item";
+ 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        if(ret.stat == "success"){
+                            location.reload();
+                        }
+                        else{
+                            window.alert("Something went wrong!");
+                        }
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { oid: oid, pid: pid};
+                xhttp.send(JSON.stringify(data));
+            }
+
+            function checkout(usr, oid){
+                //window.alert(oid);
+                const currentDate = new Date();
+                const isoDateTime = currentDate.toISOString();
+
+                var url = "/checkout_cart";
+ 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        if(ret.stat == "success"){
+                            window.alert("Checkout succesful");
+                            window.location.href = "/"+usr+"/user_dashboard";
+                        }
+                        else{
+                            window.alert("Something went wrong!");
+                        }
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { oid: oid, date: isoDateTime };
+                xhttp.send(JSON.stringify(data));
             }
             
         </script>

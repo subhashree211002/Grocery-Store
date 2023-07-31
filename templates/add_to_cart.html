@@ -14,7 +14,7 @@
                 width:100%;
                 height:100vh; 
                 background:black;
-                background-image:url('../images/home_optimized.jpg'); 
+                background-image:url('{{url_for('static', filename='images/login.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
                 background-attachment: fixed;
@@ -59,24 +59,24 @@
   
     <body id="body">
         <nav id = "nav" class="navbar sticky-top bg-body-tertiary text-center">
-                <div class="nav" style = "text-align:left;">
-                    user_01's Dashboard
-                </div>
+            <div class="nav" style = "text-align:left;">
+                {{ user }}'s Dashboard
+            </div>
 
-                <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
-                    <a href="/" style = "text-decoration:none; color:black;">Profile</a>
-                </div>
-                <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:center;border-right:2px solid black;">
-                    <a href="/" style = "text-decoration:none; color:black;">Cart</a>
-                </div>
-                <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
-                    <a href="/" style = "text-decoration:none; color:black;">Logout</a>
-                </div>
+            <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
+                <a href="/{{ user }}/profile" style = "text-decoration:none; color:black;">Dashboard</a>
+            </div>
+            <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:center;border-right:2px solid black;">
+                <a href="/{{ user }}/cart" style = "text-decoration:none; color:black;">Cart</a>
+            </div>
+            <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
+                <a href="/login" style = "text-decoration:none; color:black;">Logout</a>
+            </div>
         </nav>
         
         <div id = "content" class="container">
             <div id = "form-wrap">
-                <h4 class="mb-5">Product - Category</h4>
+                <h4 class="mb-5">{{ cat.Name }} - {{ prod.Name }}</h4>
                 <form style = "width:50vw">
                     
                     <div class = "row g-5 align-items-center mb-2">           
@@ -84,28 +84,25 @@
                             <b><p>Availability:</p></b>
                         </div>
                         <div class="col-auto col-sm-6">
-                            <p>In stock</p>
+                            <p>{% if prod.Stock > 0 %}In stock{% else %}Out of Stock{% endif %}</p>
                         </div>
                     </div>
                     
                     <div class = "row g-5 align-items-center mb-4">           
-                        <div class="col-auto col-sm-3">
+                        <div class="col-auto col-sm-3" style="padding-right:0;">
                             <b><label for="prod-qty" class="col-form-label">Quantity:</label></b>
                         </div>
-                        <div class="col-auto col-sm-2">
-                            <input type="number" class="form-control" id="prod-qty">
+                        <div class="col-auto col-sm-2"style="padding-left:0;">
+                            <input type="number" class="form-control" id="prod-qty" oninput = "calc({{prod.Price}})">
                         </div>
-                        <div class="col-auto col-sm-1">
-                            <p> units </p>
+                        <div class="col-auto col-sm-1" style="padding:0;">
+                            <p>&times;</p>
                         </div>
-                        <div class="col-auto col-sm-1">
-                            <p> x </p>
-                        </div> 
-                        <div class="col-auto col-sm-2">
-                            <p> price </p>
+                        <div class="col-auto col-sm-2" style="padding:0;">
+                            <p> {{ prod.Price}} </p>
                         </div>   
-                        <div class="col-auto col-sm-1">
-                            <p> Rupees/Unit </p>
+                        <div class="col-auto col-sm-1" style="padding:0;">
+                            <p> {{ prod.Unit}} </p>
                         </div>                   
                     </div>
 
@@ -113,16 +110,17 @@
                         <div class="col-auto col-sm-3">
                             <b><p>Total Price:</p></b>
                         </div>
-                        <div class="col-auto col-sm-2">
-                            <p>00.00</p>
+                        <div class="col-auto col-sm-1"style="padding:0;">
+                            <p id = "total"></p>
                         </div>
-                        <div class="col-auto col-sm-1">
+                        <div class="col-auto col-sm-1" style="padding:0;">
                             <p> Rupees </p>
                         </div>
                     </div>
                     
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-success" >Add to cart</button>
+                    <div class="col-5">
+                        <button type="button" class="btn btn-success" {% if prod.Stock == 0 %}disabled{% endif %} onclick = "add('{{ user }}', '{{ prod.PID }}')">Add to cart</button>
+                        {% if prod.Stock == 0 %}<a href = "/{{ user }}/user_dashboard">Go back to dashboard</a>{% endif %}
                     </div>
                 </form>
             </div>
@@ -159,6 +157,32 @@
                     clearInterval(interval); // Stop the interval when opacity reaches 0
                 }
                 }, 50);
+            }
+
+            function calc(p){
+                document.getElementById("total").innerHTML = parseFloat(p) * document.getElementById("prod-qty").value ;
+            }
+
+            function add(user, p){
+                var q = ""
+                q = document.getElementById("prod-qty").value;
+                var url = "/add_item";
+                
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        if(ret.stat != "success"){
+                            window.alert(ret.stat);
+                        }
+                        window.location.replace("/"+user+"/cart");
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { uid: user, pid: p, qty: q};
+                xhttp.send(JSON.stringify(data));
             }
             
         </script>

@@ -14,7 +14,7 @@
                 width:100%;
                 height:100vh; 
                 background:black;
-                background-image:url('../images/home_optimized.jpg'); 
+                background-image:url('{{url_for('static', filename='images/login.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
                 background-attachment: fixed;
@@ -60,42 +60,55 @@
     <body id="body">
         <nav id = "nav" class="navbar sticky-top bg-body-tertiary text-center">
                 <div class="nav" style = "text-align:left;">
-                    Manager_01's Dashboard
+                    {{ user }}'s Dashboard
                 </div>
 
                 <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
-                    <a href="/" style = "text-decoration:none; color:black;">Summary</a>
+                    <a href="/{{ user }}/manager_dashboard" style = "text-decoration:none; color:black;">Dashboard</a>
+                </div>
+                <div class="clickable nav shadow-sm" style = "text-align:right; border-right:2px solid black;">
+                    <a href="/{{ user }}/summary" style = "text-decoration:none; color:black;">Summary</a>
                 </div>
                 <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
-                    <a href="/" style = "text-decoration:none; color:black;">Logout</a>
+                    <a href="/login" style = "text-decoration:none; color:black;">Logout</a>
                 </div>
         </nav>
         
         <div id = "content" class="container">
             <div id = "form-wrap">
                 <h4 class="mb-5">Create a new Category here!</h4>
+                <p class="mb-3" id="feedback" style="color:red;"></p>
                 <form style = "width:50vw">
                     <div class = "row g-5 align-items-center mb-5">           
                         <div class="col-auto col-sm-4">
                             <b><label for="cat-name" class="col-form-label">Category Name:</label></b>
                         </div>
-                        <div class="col-auto col-sm-6">
-                            <input type="text" class="form-control" id="cat-name">
-                        </div>
-                    </div>
+                        {% if cat is none %}
+                            <div class="col-auto col-sm-6">
+                                <input type="text" class="form-control" id="cat-name">
+                            </div>
+                        {% else %}
+                            <div class="col-auto col-sm-6">
+                                <input type="text" class="form-control" id="cat-name" value="{{ cat.Name }}">
+                            </div>
+                        {% endif %}
 
-                    <div class = "row g-5 align-items-center mb-5">           
-                        <div class="col-auto col-sm-4">
-                            <b><label for="cat-type" class="col-form-label">Category Type:</label></b>
-                        </div>
-                        <div class="col-auto col-sm-6">
-                            <input type="text" class="form-control" id="cat-type">
-                        </div>
+                        <!--div class="col-auto col-sm-6">
+                            <input type="text" class="form-control" id="cat-name">
+                        </div-->
                     </div>
-                    
-                    <div class="col-1" style ="margin-left:auto; margin-right:9vw;">
-                        <button type="submit" class="btn btn-primary" >Create</button>
-                    </div>
+                    {% if cat is none %}
+                        <div class="col-1" style ="margin-left:auto; margin-right:9vw;">
+                            <button type="button" class="btn btn-primary" onclick = "create('{{ user }}')">Save</button>
+                        </div>
+                    {% else %}
+                        <div class="col-1" style ="margin-left:auto; margin-right:9vw;">
+                            <button type="button" class="btn btn-primary" onclick = "update('{{ user }}','{{ cat.CID }}')">Save</button>
+                        </div>
+                    {% endif %}
+                    <!--div class="col-1" style ="margin-left:auto; margin-right:9vw;">
+                        <button type="button" class="btn btn-primary" onclick = "create('{{ user }}')">Save</button>
+                    </div-->
                 </form>
             </div>
         </div>
@@ -131,6 +144,63 @@
                     clearInterval(interval); // Stop the interval when opacity reaches 0
                 }
                 }, 50);
+            }
+
+            function create(user){
+                var u = "";
+                var url = "/add_cat_val";
+                u = document.getElementById("cat-name").value;
+                
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        //window.alert(ret.stat)
+                        if(ret.stat == "success"){
+                            window.location.replace("/"+user+"/manager_dashboard");
+                        }
+                        else{
+                            document.getElementById("feedback").innerHTML=ret.stat; 
+                        }
+                        
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { name: u };
+                xhttp.send(JSON.stringify(data));
+            }
+
+            function update(user, cat_id){
+                var u = "";
+                var url = "/update_cat_val";
+                u = document.getElementById("cat-name").value;
+                
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        //window.alert(ret.stat)
+                        if(ret.stat == "success"){
+                            window.location.replace("/"+user+"/manager_dashboard");
+                        }
+                        else{
+                            document.getElementById("feedback").innerHTML=ret.stat; 
+                        }
+                        
+                    }
+                    else if(this.readyState == 4){
+                        
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { name: u, cid: cat_id };
+                xhttp.send(JSON.stringify(data));
             }
             
         </script>

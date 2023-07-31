@@ -15,7 +15,7 @@
                 width:100vw; 
                 overflow:hidden;
                 background:black;
-                background-image:url('../images/login.jpg'); 
+                background-image:url('{{url_for('static', filename='images/login.jpg')}}'); 
                 background-repeat:no-repeat; 
                 background-size:cover;
             }
@@ -80,7 +80,7 @@
             <div class = "wrapper">
                 <h1>Welcome! Please choose one :)</h1>
                 <div class="d-flex justify-content-evenly"  style="margin-top:3vh;">
-                    <div class="border shadow" onclick = "managerlogin()"><b>Manager Login</b></div>
+                    <div class="border shadow" onclick = "managerlogin()"><b>Admin Login</b></div>
                     <div class="border shadow" onclick = "userlogin()"><b>User Login</b></div>
                     <div class="border shadow" onclick = "userregn()"><b>User Registration</b></div>
                 </div>
@@ -96,17 +96,18 @@
                     <h3>Manager login<h3> 
                 </div>            
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInoutEnaill" class="form-label">Email address</label>
-                    <input type="text" class="form-control" id="exampleInputEmaill">
+                    <p style = "color:red;" class = "feedback"></p>
+                    <label for="user_name-1" class="form-label">User Name</label>
+                    <input type="text" class="form-control" id="user_name-1">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword">
+                    <label for="pwd-1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="pwd-1">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <button type="submit" class="btn btn-primary" style ="justify-content:center;">Submit</button>
+                    <button type="button" class="btn btn-primary" style ="justify-content:center;" onclick = "val('1')">Login</button>
                 </div>
             </form>
         </div>
@@ -120,41 +121,43 @@
                     <h3>User login<h3> 
                 </div>   
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInoutEnaill" class="form-label">Email address</label>
-                    <input type="text" class="form-control" id="exampleInputEmaill">
+                    <p style = "color:red;" class = "feedback"></p>
+                    <label for="user_name-2" class="form-label">User Name</label>
+                    <input type="text" class="form-control" id="user_name-2">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword">
+                    <label for="pwd-2" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="pwd-2">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <button type="submit" class="btn btn-primary" style ="justify-content:center;">Submit</button>
+                    <button type="button" class="btn btn-primary" style ="justify-content:center;" onclick = "val('2')">Login</button>
                 </div>
             </form>
         </div>
 
         <div id = "usr-regn" class = "container">
             <form style = "width:50vw">
-                <div class="mb-5 cls-btn">
+                <div class="mb-3 cls-btn">
                     <button type="button" class="btn-close" aria-label="Close" onclick = "cls('3')"></button>
                 </div>
-                <div class="mb-5 col-4" style="margin:auto;">
+                <div class="mb-3 col-4" style="margin:auto;">
                     <h3>User Registration<h3> 
                 </div>   
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInoutEnaill" class="form-label">Email address</label>
-                    <input type="text" class="form-control" id="exampleInputEmaill">
+                    <p style = "color:red;" class = "feedback"></p>
+                    <label for="user_name-3" class="form-label">User Name</label>
+                    <input type="text" class="form-control" id="user_name-3">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword">
+                    <label for="pwd-3" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="pwd-3">
                 </div>
                 
                 <div class="mb-5 col-6" style ="margin:auto;">
-                    <button type="submit" class="btn btn-primary" style ="justify-content:center;">Submit</button>
+                    <button type="button" class="btn btn-primary" style ="justify-content:center;" onclick = "reg()">Login</button>
                 </div>
             </form>
         </div>
@@ -183,7 +186,7 @@
                 } else {
                     clearInterval(interval); // Stop the interval when opacity reaches 0
                 }
-                }, 50);
+                }, 30);
             }
 
             function fadeOut(el) {
@@ -197,7 +200,7 @@
                     el.style.display = "none";
                     clearInterval(interval); // Stop the interval when opacity reaches 0
                 }
-                }, 50);
+                }, 30);
             }
             
             function cls(i){
@@ -240,6 +243,72 @@
                     fadeIn(el4);
                 }, 500);
             }
+
+            function val(choose){
+                var u = "";
+                var p = "";
+                var url = "/validate/";
+                if(choose == 1){
+                    u = document.getElementById("user_name-1").value;
+                    p = document.getElementById("pwd-1").value;
+                    url = "/validate/manager";
+                }
+                if(choose == 2){
+                    u = document.getElementById("user_name-2").value;
+                    p = document.getElementById("pwd-2").value;
+                    url = "/validate/user";
+                }
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        //window.alert(ret.stat);
+                        if(ret.stat == "invalid"){
+                            document.getElementsByClassName("feedback")[choose-1].innerHTML="Incorrect username or password";
+                        }
+                        else if(ret.stat == "valid"){
+                            //window.alert("Logging in!");
+                            if(choose == 1)
+                                window.location.href = "/"+u+"/manager_dashboard";
+                            else if(choose == 2)
+                                window.location.href = "/"+u+"/user_dashboard";
+                        } 
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { uname: u, pwd:p };
+                xhttp.send(JSON.stringify(data));
+            }
+
+            function reg(){
+                var u = "";
+                var p = "";
+                var url = "/register_user";
+
+                u = document.getElementById("user_name-3").value;
+                p = document.getElementById("pwd-3").value;
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var ret = JSON.parse(xhttp.responseText);
+                        if(ret.stat == "valid"){
+                            window.location.href = "/"+u+"/user_dashboard";
+                        }
+                        document.getElementsByClassName("feedback")[2].innerHTML=ret.stat;
+                    }
+                };
+                
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                var data = { uname: u, pwd:p };
+                xhttp.send(JSON.stringify(data));
+            }
+            
+            
             
             
 
