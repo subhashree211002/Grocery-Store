@@ -137,7 +137,7 @@ def checkout():
             order.Status = 0
             order.Date = datetime_obj
             db.session.flush()
-
+            
         except Exception as e:
             status = "Invalid request"
             print("Rolling back")
@@ -145,6 +145,28 @@ def checkout():
         else:
             status="success"
             db.session.commit()
+            update_stock(oid)
             print("Commit")
             
     return jsonify(stat=status)
+
+def update_stock(oid):
+    order_items = Order_Details.query.filter(Order_Details.OID == oid).all()
+    for item in order_items:
+        try:
+            prod = Product.query.filter(Product.PID == item.PID).first()
+            prod.Stock = prod.Stock - item.Qty
+            db.session.flush()
+            #print(prod.PID, prod.Stock)
+            
+        except Exception as e:
+            status = "Invalid request"
+            print("Rolling back")
+            
+    status="success"
+    db.session.commit()
+    #print("here----Commit")
+            
+    return jsonify(stat=status)
+
+        

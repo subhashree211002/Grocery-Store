@@ -222,7 +222,7 @@
                     for(var i = 0; i < lines.length; i++){
                         //window.alert(lines[i].id)
 
-                        if(lines[i].id.indexOf(value) != -1){
+                        if(lines[i].id.toLowerCase().indexOf(value) != -1){
                             lines[i].style.display = ""
                         }
                         else{
@@ -239,7 +239,7 @@
 
                         const children = parent.querySelectorAll('.prod');
                         children.forEach((child) => {
-                            if(child.id.indexOf(value) != -1){
+                            if(child.id.toLowerCase().indexOf(value) != -1){
                                 flag = 1;
                                 child.style.display = ""
                             }

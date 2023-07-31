@@ -118,16 +118,34 @@
                 Fresh Convenience at Your Fingertips: Your One-Stop Grocery App!<br>
             </div>
 
+            <div class = "container-fluid shadow" style = "width:100%; margin-top:5vh; background-color:white;">
+                <div class ="row" style="margin-left:1vw; padding-top:1vh; padding-bottom:1vh">
+                    <div class = "col-2" >
+                        <select id = "filter-select" class="form-select" style = "background-color:black; color:white; border:none;" onchange = "filter_ip()" aria-label="Default select example">
+                            <option selected>Show all </option>
+                            <option value="1">Category</option>
+                            <option value="2">Product</option>
+                            <option value="3">Price</option>
+                        </select>
+                    </div>
+                    <div class = "col-2"></div>
+                    <input id = "filter-ip" class = "col-4 border" type = "text" style = "border:1px solid black; display:none;">
+                    <div id = "range-val" class = "col-2"></div>
+                    <button id = "filter-btn" type="button" class="btn btn-dark col-1" disabled onclick = "filter()">Apply</button>
+                </div>
+            </div>
+
             <div id = "initial-struct" style="display:none;">
                 {% for cat in categories %}
-                <div class="card cat shadow" id = "{{ cat.CID }}" >
+                <div class="card cat shadow {{ cat.Name }}" id = "{{ cat.CID }}" >
                     <div class="card-body">
                         <h5 class="card-title mb-5">{{ cat.Name }}</h5>
                         <p class="card-text">
                             {% for prod in cat.products %}
                             <div class="card prod shadow" id = "{{ prod.PID }}">
-                                <div class="card-body">
+                                <div class="card-body card-body-prod" id="{{ prod.Name }}">
                                     <p class="card-text">{{ prod.Name }}</p>
+                                    <p class="card-text">Price: <span class="price">{{ prod.Price }}</span></p>
                                     <button type="button" class="btn btn-primary edit-cat" onclick = "window.location.href = '/{{ user }}/edit_product/cat_{{ cat.CID }}/prod_{{ prod.PID }}';">Edit/View</button>
                                     <button type="button" class="btn btn-danger del-cat delProdBtn"  onclick = "fn1('{{ prod.PID }}')">Delete</button>
                                 </div>
@@ -363,6 +381,135 @@
                 xhttp.setRequestHeader("Content-Type", "application/json");
                 var data = { cid: c };
                 xhttp.send(JSON.stringify(data));
+            }
+
+            function filter_ip(){
+                var v = document.getElementById("filter-select").value
+                if(v == 1){
+                    document.getElementById("filter-ip").type = "text" 
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("range-val").innerHTML =""
+                    document.getElementById("filter-ip").removeEventListener('input', val);    
+                }
+                else if(v == 2){
+                    document.getElementById("filter-ip").type = "text"
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("range-val").innerHTML =""
+                    document.getElementById("filter-ip").removeEventListener('input', val);    
+                }
+                else if(v == 3){
+                    document.getElementById("filter-ip").type = "range"
+                    document.getElementById("filter-ip").min = "0"
+                    document.getElementById("filter-ip").max = "1000"
+                    document.getElementById("filter-ip").step = "0.5"
+                    document.getElementById("filter-ip").style.display = ""
+                    document.getElementById("filter-btn").disabled = ""
+                    document.getElementById("filter-ip").addEventListener('input', val);
+                }
+                else{
+                    document.getElementById("filter-ip").style.display = "none"
+                    document.getElementById("filter-btn").disabled = "disabled"
+                    document.getElementById("filter-ip").removeEventListener('input', val);
+                    document.getElementById("range-val").innerHTML =""
+                    filter();    
+
+                }
+            }
+
+            function val(){
+                document.getElementById("range-val").innerHTML="\<\= Rs "+document.getElementById("filter-ip").value;
+            }
+
+            function filter(){
+                var v = document.getElementById("filter-select").value
+                var lines = document.getElementsByClassName("cat");
+                var value = document.getElementById("filter-ip").value;
+
+                if(v==1){
+                    value = value.toLowerCase();
+                    
+                    for(var i = 0; i < lines.length; i++){
+                        //window.alert(lines[i].id)
+                        var classlist = Array.from(lines[i].classList)
+                        var name = classlist[classlist.length-1];
+                        if(name.toLowerCase().indexOf(value) != -1){
+                            lines[i].style.display = ""
+                        }
+                        else{
+                            lines[i].style.display = "none"
+                        }
+                    }  
+                }
+                else if(v==2){
+                    value = value.toLowerCase();
+                    for(var i = 0; i < lines.length; i++){
+                        var flag = 0;
+
+                        const parent = lines[i];
+                        const children = parent.querySelectorAll('.card-body-prod');
+                        children.forEach((child) => {
+                            if(child.id.toLowerCase().indexOf(value) != -1){
+                                flag = 1;
+                                child.style.display = ""
+                            }
+                            else{
+                                child.style.display = "none"
+                            }
+                        });
+
+                        if(flag == 1){
+                            parent.style.display = ""
+                        }
+                        else{
+                            parent.style.display = "none"
+                        }
+
+                    }  
+                }
+                else if(v==3){
+                    value = parseFloat(value);
+                    for(var i = 0; i < lines.length; i++){
+                        var flag = 0;
+                        //window.alert(lines[i].id)
+                        const parent = lines[i];
+
+                        const children = parent.querySelectorAll('.card-body-prod');
+                        children.forEach((child) => {
+                            var child_price = child.querySelectorAll('.price');
+                            //window.alert(child.id+" "+child_price[0].innerHTML+" || ")
+                            if(parseFloat(child_price[0].innerHTML) <= value){
+                                //window.alert("yes");
+                                flag = 1;
+                                child.style.display = ""
+                            }
+                            else{
+                                //window.alert("no");
+                                child.style.display = "none"
+                            }
+                        });
+
+                        if(flag == 1){
+                            parent.style.display = ""
+                        }
+                        else{
+                            parent.style.display = "none"
+                        }
+
+                    }  
+                }
+                else{
+                    for(var i = 0; i < lines.length; i++){
+                        const parent = lines[i];
+                        const children = parent.querySelectorAll('.card-body-prod');
+                        children.forEach((child) => {
+                            //window.alert(child.id)
+                            child.style.display = ""
+                        });
+                        parent.style.display = ""
+                    }  
+                }
             }
         </script>
         
