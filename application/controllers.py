@@ -8,7 +8,21 @@ import re
 import application.manager_actions
 import application.user_actions
 
+def is_number(value):
+    try:
+        float(value)
+        return True
+    except (ValueError, TypeError):
+        return False
+    
 
+def is_int(value):
+    try:
+        int(value)  # You can use int() for integers only
+        return True
+    except (ValueError, TypeError):
+        return False
+    
 @app.route("/")
 def home():
     return render_template("home.html")

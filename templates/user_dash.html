@@ -121,8 +121,9 @@
                         <div id = "{{ prod.Name }}" class="card prod shadow" style = "margin-left:1vw;">
                             <div class="card-body">
                                 <div class="card-text row">
-                                    <p class="col-6" style = "text-align:left;">{{ prod.Name }}</p>
-                                    <p class="col-6 price" style = "text-align:right;">{{ prod.Price }}</p>
+                                    <p class="col-5" style = "text-align:left; padding:0;">{{ prod.Name }}</p>
+                                    <p class="col-3 price" style = "text-align:right; padding-left:0;">{{ prod.Price }}</p>
+                                    <p class="col-4" style = "text-align:right; padding:0; text-align:left;">{{ prod.Unit }}</p>
                                 </div>
                                 <button type="button" class="btn btn-primary edit-cat" onclick = "window.location.href = '/{{ user }}/cart_addition/prod_{{ prod.PID }}';">Buy</button>
                                 <img src ="{{url_for('static', filename='images/cart.png')}}" style = "width:15%">

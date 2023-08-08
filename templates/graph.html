@@ -1,0 +1,13 @@
+<h1>Category Sales</h1>
+<div id="category_graph"></div>
+
+<h1>Product Sales</h1>
+<div id="product_graph"></div>
+
+<script>
+    var category_graph_data = {{ category_graph_data | safe }};
+    var product_graph_data = {{ product_graph_data | safe }};
+
+    Plotly.newPlot('category_graph', category_graph_data);
+    Plotly.newPlot('product_graph', product_graph_data);
+</script>

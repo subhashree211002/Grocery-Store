@@ -17,10 +17,12 @@ class Product(db.Model):
     Price = db.Column(db.Float, nullable=False)
     Unit = db.Column(db.String, nullable=False)
     Stock = db.Column(db.Integer, nullable=False)
-    CID = db.Column(db.Integer, db.ForeignKey('Category.CID', ondelete='CASCADE'), nullable=False)
+    CID = db.Column(db.Integer, db.ForeignKey('Category.CID', ondelete='CASCADE'))
     
     # Establishing the relationship from Product to Category
     cat = db.relationship("Category", back_populates="products")
+    ords = db.relationship("Order_Details", back_populates="product")
+    
     
 class Managers(db.Model):
     # Table for managers
@@ -55,7 +57,7 @@ class Order_Details(db.Model):
     # Table for order details
     __tablename__ = 'Order_Details'
     OID = db.Column(db.Integer, db.ForeignKey('Orders_Desc.OID', ondelete='CASCADE'), primary_key=True)
-    PID = db.Column(db.Integer, db.ForeignKey('Product.PID', ondelete='CASCADE'), primary_key=True)
+    PID = db.Column(db.Integer, db.ForeignKey('Product.PID', ondelete='SET NULL'), primary_key=True)
     Qty = db.Column(db.Integer, nullable=False)
     
     # Define the composite primary key constraint
@@ -63,3 +65,4 @@ class Order_Details(db.Model):
     
     # Establishing the relationship from Order_Details to Order_Desc
     order = db.relationship("Orders_Desc", back_populates="products")
+    product = db.relationship("Product", back_populates="ords")
