@@ -145,7 +145,7 @@
                             <div class="card prod shadow" id = "{{ prod.PID }}">
                                 <div class="card-body card-body-prod" id="{{ prod.Name }}">
                                     <p class="card-text">{{ prod.Name }}</p>
-                                    <p class="card-text">Price: <span class="price">{{ prod.Price }}</span><span> </span> {{ prod.Unit }}</p>
+                                    <p class="card-text">Price: Rs <span class="price">{{ prod.Price }}</span><span> </span> {{ prod.Unit }}</p>
                                     <button type="button" class="btn btn-primary edit-cat" onclick = "window.location.href = '/{{ user }}/edit_product/cat_{{ cat.CID }}/prod_{{ prod.PID }}';">Edit/View</button>
                                     <button type="button" class="btn btn-danger del-cat delProdBtn"  onclick = "fn1('{{ prod.PID }}')">Delete</button>
                                 </div>
@@ -426,6 +426,16 @@
                 var v = document.getElementById("filter-select").value
                 var lines = document.getElementsByClassName("cat");
                 var value = document.getElementById("filter-ip").value;
+                
+                for(var i = 0; i < lines.length; i++){
+                    const parent = lines[i];
+                    const children = parent.querySelectorAll('.card-body-prod');
+                    children.forEach((child) => {
+                        //window.alert(child.id)
+                        child.style.display = ""
+                    });
+                    parent.style.display = ""
+                }  
 
                 if(v==1){
                     value = value.toLowerCase();

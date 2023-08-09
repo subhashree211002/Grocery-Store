@@ -48,7 +48,7 @@ def create_category():
     
     status = ""
     if len(name) == 0:
-        status = "Invalid category name"
+        status = "Invalid category name - null"
     else:
         try:
             new_cat = Category(Name=name)

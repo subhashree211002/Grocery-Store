@@ -110,18 +110,24 @@
                             <select class="form-select" aria-label="Default select example" id="prod-unit">
                                 {% if prod is none %}
                                     <option selected>Open this select menu</option>
-                                    <option value="Rs/kg">Rs/kg</option>
-                                    <option value="Rs/Litre">Rs/Litre</option>
-                                    <option value="Rs/Gram">Rs/Gram</option>
-                                    <option value="Rs/Dozen">Rs/Dozen</option>
-                                    <option value="Rs/unit">Rs/unit</option>
+                                    <option value="/Kg">/Kg</option>
+                                    <option value="/100mL">/100mL</option>
+                                    <option value="/Block">/Block</option>
+                                    <option value="/Bunch">/Bunch</option>
+                                    <option value="/Each">/Each</option>
+                                    <option value="/Litre">/Litre</option>
+                                    <option value="/100g">/100g</option>
+                                    <option value="/Dozen">/Dozen</option>
                                 {% else %}
                                     <option>Open this select menu</option>
-                                    <option value="Rs/kg" {% if prod.Unit == "Rs/kg" %}selected{% endif %}>Rs/kg</option>
-                                    <option value="Rs/Litre" {% if prod.Unit == "Rs/Litre" %}selected{% endif %}>Rs/Litre</option>
-                                    <option value="Rs/Gram" {% if prod.Unit == "Rs/Gram" %}selected{% endif %}>Rs/Gram</option>
-                                    <option value="Rs/Dozen" {% if prod.Unit == "Rs/Dozen" %}selected{% endif %}>Rs/Dozen</option>
-                                    <option value="Rs/unit" {% if prod.Unit == "Rs/unit" %}selected{% endif %}>Rs/unit</option>
+                                    <option value="/Kg" {% if prod.Unit == "/Kg" %}selected{% endif %}>/Kg</option>
+                                    <option value="/100mL" {% if prod.Unit == "/100mL" %}selected{% endif %}>/100mL</option>
+                                    <option value="/Block" {% if prod.Unit == "/Block" %}selected{% endif %}>/Block</option>
+                                    <option value="/Bunch" {% if prod.Unit == "/Bunch" %}selected{% endif %}>/Bunch</option>
+                                    <option value="/Each" {% if prod.Unit == "/Each" %}selected{% endif %}>/Each</option>
+                                    <option value="/Litre" {% if prod.Unit == "/Litre" %}selected{% endif %}>/Litre</option>
+                                    <option value="/100g" {% if prod.Unit == "/100g" %}selected{% endif %}>/100g</option>
+                                    <option value="/Dozen" {% if prod.Unit == "/Dozen" %}selected{% endif %}>/Dozen</option>
                                 {% endif %}
                             </select>
                         </div>

@@ -121,8 +121,8 @@
                         <div id = "{{ prod.Name }}" class="card prod shadow" style = "margin-left:1vw;">
                             <div class="card-body">
                                 <div class="card-text row">
-                                    <p class="col-5" style = "text-align:left; padding:0;">{{ prod.Name }}</p>
-                                    <p class="col-3 price" style = "text-align:right; padding-left:0;">{{ prod.Price }}</p>
+                                    <p class="col-4" style = "text-align:left; padding:0;">{{ prod.Name }}</p>
+                                    <p class="col-4" style = "text-align:right; padding-left:0;">Rs <span class = "price">{{ prod.Price }}</span></p>
                                     <p class="col-4" style = "text-align:right; padding:0; text-align:left;">{{ prod.Unit }}</p>
                                 </div>
                                 <button type="button" class="btn btn-primary edit-cat" onclick = "window.location.href = '/{{ user }}/cart_addition/prod_{{ prod.PID }}';">Buy</button>
@@ -218,6 +218,16 @@
                 var lines = document.getElementsByClassName("line-item");
                 var value = document.getElementById("filter-ip").value;
 
+                for(var i = 0; i < lines.length; i++){
+                    const parent = lines[i];
+                    const children = parent.querySelectorAll('.prod');
+                    children.forEach((child) => {
+                        //window.alert(child.id)
+                        child.style.display = ""
+                    });
+                    parent.style.display = ""
+                } 
+                
                 if(v==1){
                     value = value.toLowerCase();
                     for(var i = 0; i < lines.length; i++){
