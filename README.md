@@ -15,8 +15,7 @@ A multi-user application that leverages the power of technology to provide an ef
 
 <h1>DB schema design : </h1>
     The database has several models/tables created: Users, Managers, Category, Products, Orders_Desc, Order_Details
-    <img src = "er-model.png">
-    <img src = "db-model.png">
+    
 
 <h1>API design : </h1>
     <ul>
