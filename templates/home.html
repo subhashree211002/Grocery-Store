@@ -1,14 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  
     <head>
-    
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Home | Grocery Store</title>
     
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
         <style>
             body{
                 height:100vh; 
@@ -19,25 +16,8 @@
                 background-repeat:no-repeat; 
                 background-size:cover;
             }
-
-            #clickable{
-                text-decoration:none; 
-                color:rgba(0, 0, 0, 0.7);
-            }
-
-            #content{
-                height:80vh; 
-                margin-top:10vh; 
-                margin-bottom:10vh; 
-                display:flex; 
-                flex-direction:column; 
-                justify-content:center; 
-                align-items:center;  
-                background-color:rgba(255, 255, 255, 0.7);
-                border-radius:30px;
-            }
         </style>
-    
+        <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
     </head>
   
     <body id="body">
@@ -54,31 +34,14 @@
         </a>
 
         <script>
-            
             document.getElementById("clickable").style.opacity = "0.0";
-
             var el1 = document.getElementById("clickable");
             
-            function fadeIn(el) {
-                var opacity = 0; // Initial opacity
-                var interval = setInterval(function() {
-                if (opacity < 1) {
-                    opacity += 0.05;
-                    el.style.opacity = opacity;
-                } else {
-                    clearInterval(interval); // Stop the interval when opacity reaches 0
-                }
-                }, 50);
-            }
-
             setTimeout(function(){
                 fadeIn(el1)
             }, 700);
-            
-
         </script>
-        
-    
+        <script src="{{ url_for('static', filename='js/fade.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     
     </body>

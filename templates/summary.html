@@ -24,71 +24,15 @@
                 
             }
 
-            .navbar{
-                width:100%;
-            }
-
-            .nav{
-                padding-top:0.5vh;
-                padding-bottom:0.5vh;
-                padding-left:2vw;
-                padding-right:2vw;
-                width:fit-content;
-                font-size:2.5vh;
-                height:100%;
-            }
-
-            .clickable:hover{
-                background-color:rgb(230, 230, 230);
-            }
-
-            #add-btn{
-                padding:1vh 3vw;
-                position:fixed;
-                bottom: 5vh;
-                right: 10vw;
-                font-size:20px;
-                z-index:2;
-            }
-            
-            #content{
-                min-height:93vh;
-                display:flex; 
-                flex-direction:column; 
-                justify-content:center; 
-                align-items:center;  
-                background-color:rgba(255, 255, 255, 0.7);
-            }
-
-            #initial-struct, #new-struct{
+            #initial-struct{
                 padding-bottom:10vh;
                 background-color:white; 
                 width:100%; 
                 min-height:60vh; 
                 margin-top:2vh;
-            }
-
-            .column{
-                display:flex; 
-                flex-direction:column;
-                margin-left:2vw;
-            }
-
-            .card{
-                width: 18rem; 
-                margin-top:3vh; 
-            }
-
-            .card .prod{
-                width:100%;
-            }
-
-            .add-prod:hover{
-                cursor:pointer;
-            }
-
-            
+            }            
         </style>
+        <link href="{{ url_for('static', filename='css/dash.css') }}" rel="stylesheet">
     
     </head>
   

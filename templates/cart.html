@@ -19,45 +19,16 @@
                 background-size:cover;
                 background-attachment: fixed;
                 overflow-x:hidden;
-                
-            }
-
-            .navbar{
-                width:100%;
-            }
-
-            .nav{
-                padding-top:0.5vh;
-                padding-bottom:0.5vh;
-                padding-left:2vw;
-                padding-right:2vw;
-                width:fit-content;
-                font-size:2.5vh;
-                height:100%;
-            }
-
-            .clickable:hover{
-                background-color:rgb(230, 230, 230);
-            }
-            
-            #content{
-                min-height:93vh;
-                display:flex; 
-                flex-direction:column; 
-                justify-content:center; 
-                align-items:center;  
-                background-color:rgba(255, 255, 255, 0.7);
-                padding-bottom:10vh;
             }
 
             .line-item{
                 border-radius:15px;
                 padding:0px;
                 background-color:rgba(255, 255, 255, 0.7);
-            }
-
-            
+            }  
         </style>
+        <link href="{{ url_for('static', filename='css/dash.css') }}" rel="stylesheet">
+
     
     </head>
   
@@ -86,22 +57,39 @@
                 <h3>Your cart is empty go to home to start adding to the cart</h3>
             {% else %}
                 {% for desc, prod in order %}
-                <div id = "list" style = "width:100%">
-                    <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh; display:flex;">
-                        <div class ="row" style = "margin:auto; width:100%; height:fit-content; padding:1vw;">
-                            <div class = "col-3 text-wrap" style = "margin-bottom:0px;">{{ prod.Name }}</div>
-                            <div id = "{{ prod.PID }}" class = "col-2 text-wrap" style = "margin-bottom:0px;">{{ desc.Qty }} units</div>
-                            <div class = "col-3 text-wrap" style = "margin-bottom:0px;">&times; {{ prod.Price }} {{ prod.Unit }}</div>
-                            <div class = "col-2 text-wrap {{ prod.PID }}" style = "margin-bottom:0px;">Rs <span class="line-total">{{ desc.Qty*prod.Price }}</span> </div>
-                            <div id = "buttons-{{ prod.PID }}" class = "col-2  text-wrap" style = "margin-bottom:0px; padding:0px;">
-                                <button type="button" class="btn btn-primary" onclick = "edittable('{{ prod.PID }}', '{{ desc.OID }}', '{{ desc.Qty }}', '{{ prod.Price }}', this)">Edit</button>
-                                <button type="button" class="btn btn-danger" onclick = "del('{{ prod.PID }}', '{{ desc.OID }}')">Delete</button>
+                    {% if loop.last %}
+                        <div id = "list" style = "width:100%; margin-bottom:10vh;">
+                            <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh; display:flex;">
+                                <div class ="row" style = "margin:auto; width:100%; height:fit-content; padding:1vw;">
+                                    <div class = "col-3 text-wrap" style = "margin-bottom:0px;">{{ prod.Name }}</div>
+                                    <div id = "{{ prod.PID }}" class = "col-2 text-wrap" style = "margin-bottom:0px;">{{ desc.Qty }} units</div>
+                                    <div class = "col-3 text-wrap" style = "margin-bottom:0px;">&times; {{ prod.Price }} {{ prod.Unit }}</div>
+                                    <div class = "col-2 text-wrap {{ prod.PID }}" style = "margin-bottom:0px;">Rs <span class="line-total">{{ desc.Qty*prod.Price }}</span> </div>
+                                    <div id = "buttons-{{ prod.PID }}" class = "col-2  text-wrap" style = "margin-bottom:0px; padding:0px;">
+                                        <button type="button" class="btn btn-primary" onclick = "edittable('{{ prod.PID }}', '{{ desc.OID }}', '{{ desc.Qty }}', '{{ prod.Price }}', this)">Edit</button>
+                                        <button type="button" class="btn btn-danger" onclick = "del('{{ prod.PID }}', '{{ desc.OID }}')">Delete</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div> 
+                    {% else %}
+                        <div id = "list" style = "width:100%">
+                            <div class = "container-fluid shadow line-item" style = "width:100%; margin-top:5vh; display:flex;">
+                                <div class ="row" style = "margin:auto; width:100%; height:fit-content; padding:1vw;">
+                                    <div class = "col-3 text-wrap" style = "margin-bottom:0px;">{{ prod.Name }}</div>
+                                    <div id = "{{ prod.PID }}" class = "col-2 text-wrap" style = "margin-bottom:0px;">{{ desc.Qty }} units</div>
+                                    <div class = "col-3 text-wrap" style = "margin-bottom:0px;">&times; {{ prod.Price }} {{ prod.Unit }}</div>
+                                    <div class = "col-2 text-wrap {{ prod.PID }}" style = "margin-bottom:0px;">Rs <span class="line-total">{{ desc.Qty*prod.Price }}</span> </div>
+                                    <div id = "buttons-{{ prod.PID }}" class = "col-2  text-wrap" style = "margin-bottom:0px; padding:0px;">
+                                        <button type="button" class="btn btn-primary" onclick = "edittable('{{ prod.PID }}', '{{ desc.OID }}', '{{ desc.Qty }}', '{{ prod.Price }}', this)">Edit</button>
+                                        <button type="button" class="btn btn-danger" onclick = "del('{{ prod.PID }}', '{{ desc.OID }}')">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
 
-                        {% if loop.first %}
+                    {% if loop.first %}
                         <nav class="navbar fixed-bottom bg-body-tertiary" style="border-top:3px solid black">
                             <div class="container-fluid row">
                                 <p class = "col-2" style="font-size:3vh; text-align:right; margin:0px">Grand Total: </p>
