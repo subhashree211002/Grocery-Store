@@ -1,23 +1,24 @@
-<h3>Description :</h3>
+<h1>Description :</h1>
 A multi-user application that leverages the power of technology to provide an efficient and user-friendly platform that assists store managers, staff, and customers in various aspects of grocery shopping and management. It allows for improved customer experience, better inventory management, accurate sales analysis, and reduced manual work.
 
-<h3>Technologies :</h3>
-    Flask: backend of the application.
-    SQLAlchemy: Object-Relational Mapping (ORM), database management and queries.
-    HTML, CSS, JavaScript: Frontend, creating user interfaces, enhancing user experience.
-    AJAX: Single page applications, background querying
-    Plotly: graphing library used to create charts and graphs.
-    SQLite: database engine(serverless) for storing application data.
-    Bootstrap: frontend framework for responsive design and styling.
-    Jinja2 templates: HTML generation
+<h1>Technologies :</h1>
+    <ul>
+        <li>💻 Flask: backend of the application.</li>
+        <li>💻 SQLAlchemy: Object-Relational Mapping (ORM), database management and queries.</li>
+        <li>💻 HTML, CSS, JavaScript: Frontend, creating user interfaces, enhancing user experience.</li>
+        <li>💻 AJAX: Single page applications, background querying.</li>
+        <li>💻 Plotly: graphing library used to create charts and graphs.</li>
+        <li>💻 SQLite: database engine(serverless) for storing application data.</li>
+        <li>💻 Bootstrap: frontend framework for responsive design and styling.</li>
+        <li>💻 Jinja2 templates: HTML generation</li>
+    </ul>
 
-
-<h3>DB schema design : </h3>
+<h1>DB schema design : </h1>
     The database has several models/tables created: 
     Users, Managers, Category, Products, Orders_Desc, Order_Details
 
 
-<h3>API design : </h3>
+<h1>API design : </h1>
     APIs for interaction with sections and products
     CRUD on sections
     CRUD on products
@@ -26,7 +27,7 @@ A multi-user application that leverages the power of technology to provide an ef
     All form inputs fields - text, numbers, dates, etc. with suitable messages
     Backend validation before storing/selecting from the database
 
-<h3>Architecture and Features : </h3>
+<h1>Architecture and Features : </h1>
     a. The project is organized using the Model-View-Controller (MVC) architecture, with the controllers handling logic and routing, templates for displaying views, and models for interacting with the database. 
     b. Features implemented include : 
         Admin/Store Manager login and User login
@@ -54,7 +55,7 @@ A multi-user application that leverages the power of technology to provide an ef
             Search by Product name
             Search products with an upper limit on pricing 
 
-<h3>Additional features : </h3>
+<h1>Additional features : </h1>
     1. Styling and Aesthetics
     2. Export section/product engagement (for manager):
     Provides category-wise and product-wise graphs of sales within a given timeline 
