@@ -14,8 +14,10 @@ A multi-user application that leverages the power of technology to provide an ef
     </ul>
 
 <h1>DB schema design : </h1>
-    The database has several models/tables created: Users, Managers, Category, Products, Orders_Desc, Order_Details
-    
+    The database has several models/tables created: Users, Managers, Category, Products, Orders_Desc, Order_Details<br>
+    ![er-model](https://github.com/subhashree211002/Grocery-Store/assets/67853431/d21301fc-24e4-474f-8951-691375c8ab38)<br>
+    ![db-model](https://github.com/subhashree211002/Grocery-Store/assets/67853431/c3620472-ee07-468d-a25c-bd5d5a2716f3)
+
 
 <h1>API design : </h1>
     <ul>
