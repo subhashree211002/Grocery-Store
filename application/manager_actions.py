@@ -220,7 +220,7 @@ def summa():
 
 
 def sales_graph(from_date, to_date):
-    if from_date is not "" and to_date is not "":
+    if from_date != "" and to_date != "":
         # Convert the from and to dates to Python date objects
         from_date = datetime.strptime(from_date, '%Y-%m-%d').date()
         to_date = datetime.strptime(to_date, '%Y-%m-%d').date()
