@@ -219,7 +219,6 @@ def summa():
     return jsonify(category_graph_data=temp[0], product_graph_data=temp[1])
 
 
-#@app.route('/graph')
 def sales_graph(from_date, to_date):
     if from_date is not "" and to_date is not "":
         # Convert the from and to dates to Python date objects
@@ -340,6 +339,3 @@ def sales_graph(from_date, to_date):
     product_graph_data = [product_sales_data]
 
     return category_graph_data, product_graph_data
-
-
-

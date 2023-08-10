@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="clickable nav shadow-sm" style = "margin-left:auto;text-align:right; border-right:2px solid black;">
-                    <a href="/{{ user }}/user_dashboard" style = "text-decoration:none; color:black;">Dahboard</a>
+                    <a href="/{{ user }}/manager_dashboard" style = "text-decoration:none; color:black;">Dahboard</a>
                 </div>
                 <div class="clickable nav shadow-sm" style = "margin-right:1vh; text-align:left;">
                     <a href="/login" style = "text-decoration:none; color:black;">Logout</a>
@@ -87,10 +87,10 @@
             </div>
 
             <div id = "initial-struct">
-                <h1 style = "margin:auto; width:fit-content;">Category Sales</h1>
+                <h1 style = "margin:auto; width:fit-content; display:none">Category Sales</h1>
                 <div id="category_graph" style = "display:flex; margin:auto;"></div>
 
-                <h1 style = "margin:auto;  width:fit-content;">Product Sales</h1>
+                <h1 style = "margin:auto; width:fit-content; display:none">Product Sales</h1>
                 <div id="product_graph" style = "display:flex; margin:auto;"></div>
             </div>              
         </div>
@@ -138,19 +138,12 @@
                 }, 700);
             }
 
-            function fadeIn(el) {
-                var opacity = 0; // Initial opacity
-                var interval = setInterval(function() {
-                if (opacity < 1) {
-                    opacity += 0.05;
-                    el.style.opacity = opacity;
-                } else {
-                    clearInterval(interval); // Stop the interval when opacity reaches 0
-                }
-                }, 50);
-            }  
-
             function summarize(){
+                var heads = document.getElementsByTagName("h1");
+                for(var i = 0; i < 2; i++){
+                    heads[i].style.dispaly = "";
+                }
+
                 var url = "/summarize";
                 
                 var xhttp = new XMLHttpRequest();
@@ -172,12 +165,10 @@
                 var data = { from: document.getElementById("from-date").value, to: document.getElementById("to-date").value };
                 xhttp.send(JSON.stringify(data));
             }
-        
-
-        
+           
         </script>
         
-    
+        <script src="{{ url_for('static', filename='js/fade.js') }}"></script>       
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     
     </body>

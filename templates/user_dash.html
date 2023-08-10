@@ -123,18 +123,6 @@
                 
             }
 
-            function fadeIn(el) {
-                var opacity = 0; // Initial opacity
-                var interval = setInterval(function() {
-                if (opacity < 1) {
-                    opacity += 0.05;
-                    el.style.opacity = opacity;
-                } else {
-                    clearInterval(interval); // Stop the interval when opacity reaches 0
-                }
-                }, 50);
-            }
-
             function filter_ip(){
                 var v = document.getElementById("filter-select").value
                 if(v == 1){
@@ -275,7 +263,7 @@
             
         </script>
         
-    
+        <script src="{{ url_for('static', filename='js/fade.js') }}"></script>       
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     
     </body>
