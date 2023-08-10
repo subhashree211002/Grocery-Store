@@ -1,7 +1,7 @@
-<h3>**Description :**</h3>
+<h3>Description :</h3>
 A multi-user application that leverages the power of technology to provide an efficient and user-friendly platform that assists store managers, staff, and customers in various aspects of grocery shopping and management. It allows for improved customer experience, better inventory management, accurate sales analysis, and reduced manual work.
 
-<h3>**Technologies :**</h3>
+<h3>Technologies :</h3>
     Flask: backend of the application.
     SQLAlchemy: Object-Relational Mapping (ORM), database management and queries.
     HTML, CSS, JavaScript: Frontend, creating user interfaces, enhancing user experience.
@@ -12,12 +12,12 @@ A multi-user application that leverages the power of technology to provide an ef
     Jinja2 templates: HTML generation
 
 
-<h3>**DB schema design :** </h3>
+<h3>DB schema design : </h3>
     The database has several models/tables created: 
     Users, Managers, Category, Products, Orders_Desc, Order_Details
 
 
-<h3>**API design :** </h3>
+<h3>API design : </h3>
     APIs for interaction with sections and products
     CRUD on sections
     CRUD on products
@@ -26,7 +26,7 @@ A multi-user application that leverages the power of technology to provide an ef
     All form inputs fields - text, numbers, dates, etc. with suitable messages
     Backend validation before storing/selecting from the database
 
-<h3>**Architecture and Features : **</h3>
+<h3>Architecture and Features : </h3>
     a. The project is organized using the Model-View-Controller (MVC) architecture, with the controllers handling logic and routing, templates for displaying views, and models for interacting with the database. 
     b. Features implemented include : 
         Admin/Store Manager login and User login
@@ -54,7 +54,7 @@ A multi-user application that leverages the power of technology to provide an ef
             Search by Product name
             Search products with an upper limit on pricing 
 
-<h3>**Additional features :** </h3>
+<h3>Additional features : </h3>
     1. Styling and Aesthetics
     2. Export section/product engagement (for manager):
     Provides category-wise and product-wise graphs of sales within a given timeline 
