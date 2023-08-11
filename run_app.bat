@@ -2,7 +2,7 @@
 
 if not exist .venv (
     echo Creating virtual environment...
-    python -m venv .venv
+    python3 -m venv .venv
 ) else (
     echo Virtual environment already exists.
 )
