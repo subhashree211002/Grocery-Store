@@ -1,25 +1,100 @@
-<h1>Description :</h1>
+<h1>Grocery Store Application</h1>
+<h3>Description :</h3>
 A multi-user application that leverages the power of technology to provide an efficient and user-friendly platform that assists store managers, staff, and customers in various aspects of grocery shopping and management. It allows for improved customer experience, better inventory management, accurate sales analysis, and reduced manual work.
 
-<h1>Technologies :</h1>
-    <ul>
-        <li>🛢  Flask: backend of the application.</li>
-        <li>🌐 SQLAlchemy: Object-Relational Mapping (ORM), database management and queries.</li>
-        <li>🌐 HTML, CSS, JavaScript: Frontend, creating user interfaces, enhancing user experience.</li>
-        <li>💻 AJAX: Single page applications, background querying.</li>
-        <li>💻 Plotly: graphing library used to create charts and graphs.</li>
-        <li>🛢  SQLite: database engine(serverless) for storing application data.</li>
-        <li>🌐 Bootstrap: frontend framework for responsive design and styling.</li>
-        <li>🌐 Jinja2 templates: HTML generation</li>
-    </ul>
+<h3>Tech Stack:</h3>
+<ul>
+    <li>🛢  Flask: backend of the application.</li>
+    <li>🌐 SQLAlchemy: Object-Relational Mapping (ORM), database management and queries.</li>
+    <li>🌐 HTML, CSS, JavaScript: Frontend, creating user interfaces, enhancing user experience.</li>
+    <li>💻 AJAX: Single page applications, background querying.</li>
+    <li>💻 Plotly: graphing library used to create charts and graphs.</li>
+    <li>🛢  SQLite: database engine(serverless) for storing application data.</li>
+    <li>🌐 Bootstrap: frontend framework for responsive design and styling.</li>
+    <li>🌐 Jinja2 templates: HTML generation</li>
+</ul>
 
-<h1>DB schema design : </h1>
+<h1>Getting Started</h1>
+<h3>Prerequisites</h3>
+<ul>
+    <li>Python 3.x</li>
+    <li>pip</li>
+    <li>git</li>
+    <li>sqlite3(DBBrowser)</li>
+</ul>
+
+ 
+<h3>Installation and Usage</h3>
+
+1. Clone the repository.
+    ```
+    git clone https://github.com/subhashree211002/Grocery-Store.git
+    ```
+    
+2. cd into your project directory
+    ```
+    cd path/to/your/folder
+    ```
+    
+3.  For a windows system    
+    - Run the run_app.bat file in the terminal
+        ```
+        ./run_app.bat
+        ```
+    - Alternatively you can execute the following step by step in the terminal
+        - Create a virtual environment (if not already created):
+          ```
+          python3 -m venv .venv
+          ```
+        - Activate the virtual environment:
+          ```
+          .venv/bin/activate
+          ```
+        - Install project dependencies:
+          ```
+          pip install -r requirements.txt
+          ```
+        - Run the application:
+          ```
+          python main.py
+          ```
+        - Open a web browser and go to http://localhost:8080 to access the application.
+          
+        
+4. For a linux system
+    - Modify permissions for the run_app.sh bash file
+        ```
+        ./run_app.sh
+        ```
+    - Alternatively you can execute the following step by step in the terminal
+        - Create a virtual environment (if not already created):
+          ```
+          python3 -m venv .venv
+          ```
+        - Activate the virtual environment:
+          ```
+          source .venv/bin/activate
+          ```
+        - Install project dependencies:
+          ```
+          pip install -r requirements.txt
+          ```
+        - Run the application:
+          ```
+          python main.py
+          ```
+        - Open a web browser and go to http://localhost:8080 to access the application.
+
+
+<h1>Implementation Details</h1>
+<h3>DB schema design : </h3>
     The database has several models/tables created: Users, Managers, Category, Products, Orders_Desc, Order_Details<br>
-    ![er-model](https://github.com/subhashree211002/Grocery-Store/assets/67853431/d21301fc-24e4-474f-8951-691375c8ab38)<br>
-    ![db-model](https://github.com/subhashree211002/Grocery-Store/assets/67853431/c3620472-ee07-468d-a25c-bd5d5a2716f3)
+    <img src='https://github.com/subhashree211002/Grocery-Store/assets/67853431/d21301fc-24e4-474f-8951-691375c8ab38'><br>
+    <img src='https://github.com/subhashree211002/Grocery-Store/assets/67853431/a7203b1d-b893-4694-afa5-e75a5cba8ea1'>
 
 
-<h1>API design : </h1>
+
+<h3>API design : </h3>
     <ul>
         <li>APIs for interaction with sections and products</li>
             <ul>
@@ -34,7 +109,7 @@ A multi-user application that leverages the power of technology to provide an ef
             </ul>
     </ul>
 
-<h1>Architecture and Features : </h1>
+<h3>Architecture and Features : </h3>
     <ol type='a'>
         <li> The project is organized using the Model-View-Controller (MVC) architecture, with the controllers handling logic and routing, templates for displaying views, and models for interacting with the database. </li>
         <li>Features implemented include : </li>
@@ -74,7 +149,7 @@ A multi-user application that leverages the power of technology to provide an ef
             </ol>
     </ol>
 
-<h1>Additional features : </h1>
+<h3>Additional features : </h3>
     <ol>
         <li>Styling and Aesthetics</li>
         <li>Export section/product engagement (for manager):</li>
