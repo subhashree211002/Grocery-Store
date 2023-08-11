@@ -136,12 +136,14 @@
                 setTimeout(function(){
                     fadeIn(el2)
                 }, 700);
+
+                
             }
 
             function summarize(){
                 var heads = document.getElementsByTagName("h1");
-                for(var i = 0; i < 2; i++){
-                    heads[i].style.dispaly = "";
+                for(var i = 1; i < 3; i++){
+                    heads[i].style.display = "";
                 }
 
                 var url = "/summarize";

@@ -95,16 +95,18 @@ function reg(){
 
     u = document.getElementById("user_name-3").value;
     p = document.getElementById("pwd-3").value;
+    
+    if(document.getElementById("pwd-4").value != p){
+        document.getElementsByClassName("feedback")[2].innerHTML="Entered passwords do not match!";
+        return;
+    }
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var ret = JSON.parse(xhttp.responseText);
             if(ret.stat == "valid"){
-                if(document.getElementById("pwd-4").value == p)
-                    window.location.href = "/"+u+"/user_dashboard";
-                else
-                    document.getElementsByClassName("feedback")[2].innerHTML="Entered passwords do not match!";
+                window.location.href = "/"+u+"/user_dashboard";
             }
             document.getElementsByClassName("feedback")[2].innerHTML=ret.stat;
         }
