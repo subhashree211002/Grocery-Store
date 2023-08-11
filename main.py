@@ -17,7 +17,7 @@ def create_app():
         app.config.from_object(LocalDevelopmentConfig)
         print(app.config['SQLALCHEMY_DATABASE_URI'])
     db.init_app(app)
-    
+     
     """migrate = Migrate(app, db)  # Initialize Flask-Migrate
 
     # Import all the models so they are loaded before creating tables
